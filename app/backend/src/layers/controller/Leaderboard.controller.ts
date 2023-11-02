@@ -6,7 +6,8 @@ export default class TeamController {
   constructor(private leaderBoardService = new LeaderBoardService()) { }
 
   public async findAll(req: Request, res: Response) {
-    const { status, data } = await this.leaderBoardService.findAll();
+    console.log(req.url);
+    const { status, data } = await this.leaderBoardService.findAll(req.url);
     res.status(mapStatusHTTP(status)).json(data);
   }
 }

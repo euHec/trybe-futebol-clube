@@ -21,13 +21,13 @@ export default class MatchesService {
     private matchesModel: IMatchesModel = new MatchesModel(),
   ) { }
 
-  public async findAll(): Promise<ServiceResponse<Leaderboard[]>> {
+  public async findAll(param: string): Promise<ServiceResponse<Leaderboard[]>> {
     const matches = await this.matchesModel.findAllByProgress(false);
 
     const groupedMatches: { [teamName: string]: Results[] } = {};
 
-    matches.forEach(({ homeTeam, awayTeamGoals, homeTeamGoals }) => {
-      const teamName = homeTeam?.teamName;
+    matches.forEach(({ homeTeam, awayTeam, awayTeamGoals, homeTeamGoals }) => {
+      const teamName = param === '/home' ? homeTeam?.teamName : awayTeam?.teamName;
       if (teamName) {
         if (!groupedMatches[teamName]) {
           groupedMatches[teamName] = [];
